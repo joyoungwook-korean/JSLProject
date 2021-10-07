@@ -1,0 +1,43 @@
+.footer{padding:16px 0; text-align:center;background-color:#0040FF;}
+*{margin:0; padding:0;}
+ul,li {list-style:none;}
+a {text-decoration:none;}
+.logo {color:#fff; text-align:center;background-color:#0040FF;
+    padding:16px 0;}
+.navi{padding:12px 0; overflow:hidden;background-color:#BCA9F5;}
+.navi ul,li{float:left; padding:0 20px; text-align:center;}
+.content{background-color:#E6E6E6; padding:16px; height:500px; overflow: auto}
+.content table{width:800px; margin:0 auto;}
+.content table th, td{border:1px solid #bbb;}
+.content table .btn_group{text-align:center;}
+.content .text_center {text-align:center;}
+.title{text-align:center;padding:22px;}
+
+.loginformz {
+    margin: 0 auto;
+    width: 700px;
+    height: 500px;
+    text-align: center;
+}
+
+.loginformz > h1 {
+    margin-bottom: 20px;
+    padding-bottom: 30px;
+
+}
+
+.loginformz > div {
+
+    margin-top: 30px;
+    margin-bottom: 15px;
+
+}
+.form-floating > .form-control {
+    padding: 1rem .75rem;
+}
+
+.form-floating > .form-control, .form-floating > .form-select {
+    height: calc(3.5rem + 2px);
+    line-height: 1.25;
+}
+
