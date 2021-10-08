@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/content}">
+<th:block>
+    <style>
+        .fieldError{
+            color: red;
+        }
+    </style>
+</th:block>
+
+
+<div layout:fragment="content">
+    <div class="container loginformz">
+        <form action="/write" method="post" th:object="${boardDto}">
+            <input type="hidden" th:name="userfullname" th:value="${userAll.getUserFullName()}">
+            <div class="mb-3 row">
+                <label class="col-sm-2 col-form-label">Name</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" readonly th:value="${userAll.getUsername()}" th:name="username">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label class="col-sm-2 col-form-label">Subject</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" th:field="*{boardSubject}">
+                    <p th:if="${#fields.hasErrors('boardSubject')}" th:errors="*{boardSubject}" class="fieldError"></p>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label class="col-sm-2 col-form-label">content</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" th:field="*{boardContents}" style="height: 200px"></textarea>
+                    <p th:if="${#fields.hasErrors('boardContents')}" th:errors="*{boardContents}" class="fieldError"></p>
+                </div>
+            </div>
+            <div style="text-align: right">
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-Danger" onclick="location.href='/list'">Cancel</button>
+            </div>
+
+        </form>
+    </div>
+
+
+</div>
+
+</html>

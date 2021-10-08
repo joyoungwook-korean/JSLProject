@@ -25,7 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 antMatchers("/admin/**").access("hasRole('ADMIN')").
                 anyRequest().permitAll().
                 and()
-                .formLogin().loginPage("/loginform").
+                .formLogin().loginPage("/index/loginform").
                 loginProcessingUrl("/login")
                 .defaultSuccessUrl("/").
                 usernameParameter("username")

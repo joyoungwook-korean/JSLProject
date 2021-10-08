@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/content}">
+
+
+<div layout:fragment="content">
+    <div class="loginformz">
+
+        <div>
+            <span>글쓴이</span>
+        </div>
+        <tr th:each="board : ${boardvo}">
+            <td th:text="${board.getBoardWriteName()}"></td>
+            <td><a th:href="@{board/modify(id=${board.getId()})}" th:text="${board.getBoardSubject()}"></a></td>
+            <td th:text="${board.getBoardContents()}"></td>
+            <td th:text="${board.getBoard_update_time()}"></td>
+            <td th:text="${board.getBoardCount()}"></td>
+            <br>
+        </tr>
+
+        <div>
+            <button class="btn btn-primary" onclick="location.href='/write'">글쓰기</button>
+        </div>
+    </div>
+</div>
+
+</html>

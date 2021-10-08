@@ -19,4 +19,5 @@ public class UserJoinDto {
     @NotBlank(message = "passwordを入力してください")
     @Length(min = 6, max = 16, message = "passwordは 6文字以上　16文字以下で入力をお願いします。")
     private String password;
+
 }
