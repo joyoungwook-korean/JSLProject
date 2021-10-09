@@ -1,6 +1,7 @@
 package com.example.jslproject.service;
 
 import com.example.jslproject.repository.UserRepository;
+import com.example.jslproject.vo.BoardVO;
 import com.example.jslproject.vo.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ public class UserService {
         check_User_Email_Provider(user);
         return userRepository.save(user);
     }
+
+
 
 
 

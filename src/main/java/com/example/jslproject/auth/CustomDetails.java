@@ -54,6 +54,7 @@ public class CustomDetails implements UserDetails , OAuth2User{
 
     public String getUserFullname() { return user.getUserFullName();}
 
+
     @Override
     public boolean isAccountNonExpired() {
         return true;

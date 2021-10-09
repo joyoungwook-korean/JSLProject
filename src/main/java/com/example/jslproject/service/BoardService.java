@@ -28,6 +28,10 @@ public class BoardService {
         boardVO.setBoardContents(boardDto.getBoardContents());
         return boardRepository.save(boardVO);
     }
+    public void countAdd(BoardVO boardVO){
+        boardVO.setBoardCount(boardVO.getBoardCount()+1);
+
+    }
 
     public BoardVO update(BoardVO boardVO,String subject, String contents){
         boardVO.setBoardContents(contents);
