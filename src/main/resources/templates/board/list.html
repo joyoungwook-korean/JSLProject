@@ -56,7 +56,7 @@
             </div>
             <tr th:each="board : ${boardvo}"
                 th:onclick="'location.href=\'' + @{/board/modify(id=${board.getId()})} + '\''">
-                <th class="aaa" scope="row" th:text="${boardStat.index+1}"></th>
+                <th class="aaa" scope="row" th:text="${boardStat.index+1}+${boardvo.pageable.offset}"></th>
                 <td th:text="${board.getBoardWriteName()}+' : '+${board.getUser().getProvider()} "></td>
                 <td th:text="${board.getBoardSubject()}">
                 </td>

@@ -39,6 +39,10 @@ public class BoardService {
         return boardVO;
     }
 
+    public void boardVO_Delete(BoardVO boardVO){
+        boardRepository.delete(boardVO);
+    }
+
 
 
 }

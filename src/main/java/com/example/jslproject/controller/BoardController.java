@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/board")
@@ -73,11 +74,6 @@ public class BoardController {
         return "redirect:/board/list";
     }
 
-    @PostMapping("/delete")
-    public @ResponseBody String delete(@RequestParam("userId") String userId){
-        return userId;
-    }
-
     @GetMapping("/modify")
     public String modify(@AuthenticationPrincipal CustomDetails customDetails
             ,Model model, @RequestParam("id") Long id){
@@ -98,6 +94,14 @@ public class BoardController {
     public String modify(@RequestParam("subject") String subject,@RequestParam("contents") String contents,@RequestParam("id") Long id){
         BoardVO boardVO = boardRepository.getById(id);
         boardService.update(boardVO,subject,contents);
+        return "redirect:/board/list";
+    }
+
+    @PostMapping("/delete")
+    public String delete(@RequestParam("boardId") String id){
+        Long id_x = Long.parseLong(id);
+        BoardVO boardVO = boardRepository.findById(id_x).orElseThrow(IllegalArgumentException::new);
+        boardRepository.delete(boardVO);
         return "redirect:/board/list";
     }
 }
