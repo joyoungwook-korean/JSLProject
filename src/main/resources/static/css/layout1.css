@@ -15,7 +15,7 @@ a {text-decoration:none;}
     padding:16px 0;}
 .navi{padding:12px 0; overflow:hidden;background-color:#BCA9F5;}
 .navi ul,li{float:left; padding:0 20px; text-align:center;}
-.content{background-color:#E6E6E6; padding:16px; height: 100%; width: 100%; overflow: auto}
+.content{background-color:#E6E6E6; padding:16px; height: 100%; width: 100%; overflow: scroll}
 .content table{width:800px; margin:0 auto;}
 .content table th, td{border:1px solid #bbb;}
 .content table .btn_group{text-align:center;}
@@ -26,7 +26,7 @@ a {text-decoration:none;}
     margin: 0 auto;
     width: 100%;
     height: 100%;
-    overflow: auto;
+
     text-align: center;
 }
 
