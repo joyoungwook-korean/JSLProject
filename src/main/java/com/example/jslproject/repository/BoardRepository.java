@@ -12,5 +12,7 @@ public interface BoardRepository extends JpaRepository<BoardVO,Long> {
     BoardVO findByUser(String userfullname);
     BoardVO findByBoardSubject(String subject);
     Page<BoardVO> findByBoardSubjectContainingOrBoardContentsContaining(String title, String contents, Pageable pageable);
+    Page<BoardVO> findByBoardWriteNameContaining(String writerName, Pageable pageable);
+    Page<BoardVO> findByUserProvider(String provider, Pageable pageable);
 
 }

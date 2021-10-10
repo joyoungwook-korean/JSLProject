@@ -30,9 +30,11 @@ public class BoardVO {
 
     private String boardSubject;
 
-    private String boardFilename;
-
     private int boardCount;
+
+    @OneToOne
+    @JoinColumn(name = "realFileSavePath")
+    private FileVO boardFile;
 
     @ManyToOne
     @JoinColumn(name = "userfullname")

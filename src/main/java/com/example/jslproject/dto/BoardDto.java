@@ -1,8 +1,10 @@
 package com.example.jslproject.dto;
 
+import com.example.jslproject.vo.FileVO;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import java.io.File;
 
 @Data
 public class BoardDto {
@@ -17,6 +19,6 @@ public class BoardDto {
     @NotBlank(message = "subjectを入力してください")
     private String boardSubject;
 
-    private String boardFilename;
+    private FileVO fileVO;
 
 }

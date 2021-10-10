@@ -1,4 +1,4 @@
-.footer{position:absolute; bottom: 0; width: 100%; padding:16px 0; text-align:center; background-color:black;}
+.footer{position:absolute; bottom: 1; width: 100%; padding:16px 0; text-align:center; background-color:black;}
 .footer div{
     color: white;
     text-align: center;
@@ -16,7 +16,7 @@ a {text-decoration:none;}
 .navi{padding:12px 0; overflow:hidden;background-color:#BCA9F5;}
 .navi ul,li{float:left; padding:0 20px; text-align:center;}
 .content{background-color:#E6E6E6; padding:16px; height: 100%; width: 100%; overflow: scroll}
-.content table{width:800px; margin:0 auto;}
+.content table{width:800px; margin:0 auto; height: 100%;}
 .content table th, td{border:1px solid #bbb;}
 .content table .btn_group{text-align:center;}
 .content .text_center {text-align:center;}
@@ -24,7 +24,7 @@ a {text-decoration:none;}
 
 .loginformz {
     margin: 0 auto;
-    width: 100%;
+    width: 800px;
     height: 100%;
 
     text-align: center;

@@ -2,23 +2,38 @@ package com.example.jslproject.controller;
 
 import com.example.jslproject.auth.CustomDetails;
 import com.example.jslproject.dto.BoardDto;
+import com.example.jslproject.dto.FileDto;
 import com.example.jslproject.repository.BoardRepository;
 import com.example.jslproject.repository.UserRepository;
 import com.example.jslproject.service.BoardService;
+import com.example.jslproject.service.FileService;
+import com.example.jslproject.util.MD5Generator;
 import com.example.jslproject.vo.BoardVO;
+import com.example.jslproject.vo.FileVO;
 import com.example.jslproject.vo.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,10 +50,14 @@ public class BoardController {
     @Autowired
     BoardService boardService;
 
+    @Autowired
+    FileService fileService;
+
     @GetMapping(value = "/list")
     public String list(Model model,@PageableDefault(size = 7) Pageable pageable,
-                       @RequestParam(required = false, defaultValue = "") String searchText) {
-        Page<BoardVO> boardVO = boardRepository.findByBoardSubjectContainingOrBoardContentsContaining(searchText,searchText,pageable);
+                       @RequestParam(required = false, defaultValue = "") String searchText,
+                       @RequestParam(required = false, defaultValue = "action") String drop_check) {
+        Page<BoardVO> boardVO = boardService.check_get_dropBox(drop_check,searchText,pageable);
         int startPage = Math.max(0,boardVO.getPageable().getPageNumber() - 4);
         int endPage = Math.min(boardVO.getTotalPages(), boardVO.getPageable().getPageNumber()+4);
         model.addAttribute("boardvo", boardVO);
@@ -62,13 +81,23 @@ public class BoardController {
     @PostMapping("/write")
     public String write(@Valid BoardDto boardDto, BindingResult bindingResult,
                         @RequestParam("userfullname") String userfullname,
-            @RequestParam("username") String username
+                        @RequestParam("username") String username,
+                        @RequestParam("file") MultipartFile multipartFile
             , Model model) {
         if (bindingResult.hasErrors()) {
             return "/board/write";
         }
+
         User user = userRepository.findByUserFullName(userfullname);
+        String user_email = user.getEmail();
+        String user_provider = user.getProvider();
+         if(!multipartFile.isEmpty()){
+
+            boardDto.setFileVO(fileService.saveFile(multipartFile,user_email,user_provider));
+        }
+
         BoardVO aa = boardService.saveBoard(boardDto,user);
+        System.out.println(aa.toString());
 
 
         return "redirect:/board/list";
@@ -103,6 +132,17 @@ public class BoardController {
         BoardVO boardVO = boardRepository.findById(id_x).orElseThrow(IllegalArgumentException::new);
         boardRepository.delete(boardVO);
         return "redirect:/board/list";
+    }
+
+    @GetMapping("/download/{field}")
+    public ResponseEntity<Resource> fileDownload(@PathVariable("field") Long field) throws IOException{
+        FileVO fileVO = fileService.getFile(field);
+        Path path = Paths.get(fileVO.getRealFileSavePath());
+        Resource resource = new InputStreamResource(Files.newInputStream(path));
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType("application/octet-steam"))
+                .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=\""+ fileVO.getRealFileName() +"\"")
+                        .body(resource);
     }
 }
 

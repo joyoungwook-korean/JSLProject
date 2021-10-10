@@ -46,6 +46,20 @@
                               th:text="${boardvo.getBoardContents()}"></textarea>
                 </div>
             </div>
+
+
+            <div class="mb-3" th:if="${truea} == 'same'">
+                <input th:if="${boardvo.getBoardFile() != null}" class="form-control" type="file" id="formFile">>
+            </div>
+            <div class="mb-3" th:if="${truea}!='same'">
+                <div th:if="${boardvo.getBoardFile() != null}">
+                    <span>파일 : </span>
+                    <a  th:text="${boardvo.getBoardFile().getRealFileName()}" th:href="@{'/board/download/'+${boardvo.getBoardFile().getId()}}">
+                    </a>
+                </div>
+
+            </div>
+
             <div style="text-align: right">
                 <button type="submit" th:if="${boardvo.getUser().getUserFullName()}==${thisUserVO.getUserFullname()}" class="btn btn-primary">Modify</button>
                 <button type="button" class="btn btn-Danger" onclick="location.href='/board/list'">Cancel</button>
