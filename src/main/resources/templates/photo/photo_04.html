@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	  layout:decorate="~{layouts/content2}"
+	 >
+
+
+
+<div layout:fragment="content2">
+		<div class="container demo-3" style="height: 100%">
+			<!-- Top Navigation -->
+
+
+			<ul class="grid cs-style-4" >
+				<li>
+					<figure>
+						<div><img th:src="@{/images/5.png}" alt="img05"></div>
+						<figcaption>
+							<h3>Safari</h3>
+							<span>Jacob Cummings</span>
+							<a th:href="@{/photo/view}">Take a look</a>
+						</figcaption>
+					</figure>
+				</li>
+				<li>
+					<figure>
+						<div><img th:src="@{/images/6.png}"  alt="img06"></div>
+						<figcaption>
+							<h3>Game Center</h3>
+							<span>Jacob Cummings</span>
+							<a href="http://dribbble.com/shots/1118904-Game-Center">Take a look</a>
+						</figcaption>
+					</figure>
+				</li>
+				<li>
+					<figure>
+						<div><img th:src="@{/images/2.png}" alt="img02"></div>
+						<figcaption>
+							<h3>Music</h3>
+							<span>Jacob Cummings</span>
+							<a href="http://dribbble.com/shots/1115960-Music">Take a look</a>
+						</figcaption>
+					</figure>
+				</li>
+				<li>
+					<figure>
+						<div><img th:src="@{/images/4.png}" alt="img04"></div>
+						<figcaption>
+							<h3>Settings</h3>
+							<span>Jacob Cummings</span>
+							<a href="http://dribbble.com/shots/1116685-Settings">Take a look</a>
+						</figcaption>
+					</figure>
+				</li>
+				<li>
+					<figure>
+						<div><img th:src="@{/images/1.png}" alt="img01"></div>
+						<figcaption>
+							<h3>Camera</h3>
+							<span>Jacob Cummings</span>
+							<a href="http://dribbble.com/shots/1115632-Camera">Take a look</a>
+						</figcaption>
+					</figure>
+				</li>
+				<li>
+					<figure>
+						<div><img th:src="@{/images/3.png}" alt="img03"></div>
+						<figcaption>
+							<h3>Phone</h3>
+							<span>Jacob Cummings</span>
+							<a href="http://dribbble.com/shots/1117308-Phone">Take a look</a>
+						</figcaption>
+					</figure>
+				</li>
+			</ul>
+			<form action="/photo/insertForm"  method="get" sec:authorize="isAuthenticated()" >
+				<input type="hidden" name="userId"  th:value="${#authentication.principal.user.id}">
+				<div class="form-control">
+					<button type="submit" class="btn btn-primary"  >Upload</button>
+				</div>
+			</form>
+
+		</div><!-- /container -->
+		<script th:src="@{/js/toucheffects.js}"></script>
+</div>
+</html>

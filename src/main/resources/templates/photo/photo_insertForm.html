@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/content2}"
+>
+<th:block layout:fragment="css">
+    <style>
+        .fieldError{
+            color: red;
+        }
+    </style>
+</th:block>
+
+<div layout:fragment="content2">
+    <div class="container demo-3" style="height: 100%">
+        <form action="/photo/insertForm" method="post"  class="form-control" enctype="multipart/form-data" th:object="${photoBoardDto}">
+            <input type="hidden" th:field="*{userId}" th:value="${#authentication.principal.user.id}">
+            <input type="hidden" name="us" th:value="${#authentication.principal.user.id}">
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">title</label>
+                <input th:field="*{title}" type="text" class="form-control" id="exampleFormControlInput1" placeholder="titleを入力してください">
+               </div>
+            <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="fieldError"></p>
+
+
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <p  th:text="${#authentication.name +' : '+ #authentication.principal.user.provider}"></p>
+            </div>
+
+
+
+            <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label">contents</label>
+                <textarea th:field="*{contents}" class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
+            </div>
+            <p th:if="${#fields.hasErrors('contents')}" th:errors="*{contents}" class="fieldError"></p>
+
+            <div class="form-group" th:each="num: ${#numbers.sequence(1,4)}">
+                <div class="cystom-file img-div">
+                    <input id="photo-img" type="file" class="custom-file-input" name="photoImgFile">
+                    <label for="photo-img" class="custom-file-label" th:text="Img + ${num}"></label>
+                </div>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="button" class="btn btn-danger"><a th:href="@{/photo/index}" style="text-decoration: none; color: white">Back</a> </button>
+        </form>
+    </div>
+</div>
+</html>

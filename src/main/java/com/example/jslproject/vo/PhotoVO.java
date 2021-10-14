@@ -21,7 +21,6 @@ public class PhotoVO {
 
     private String realPhotoName;
 
-    @Column(unique = true)
     private String realPhotoPath;
 
     private String serverFileName;

@@ -9,8 +9,6 @@ import java.io.File;
 @Data
 public class BoardDto {
 
-
-
     private String boardWriteName;
 
     @NotBlank(message = "contentを入力してください")
