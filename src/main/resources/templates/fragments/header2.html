@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+
+
+  <div th:fragment="header2" class="header2">
+    <header class="d-flex justify-content-center py-3">
+          <ul class="nav nav-pills header_nav_me">
+            <li class="nav-item"><a class="nav-link active" href="/">[홈으로]</a></li>
+            <li class="nav-item"><a class="nav-link active" href="/joinform" sec:authorize="isAnonymous()">[회원가입]</a></li>
+            <li class="nav-item"><a class="nav-link active" href="/board/list" sec:authorize="isAuthenticated()">[자유게시판]</a></li>
+            <li class="nav-item"><a class="nav-link active" href="" sec:authorize="isAuthenticated()">[자료실]</a></li>
+            <li class="nav-item"><a class="nav-link active" href="/photo/index" sec:authorize="isAuthenticated()">[포토겔러리]</a></li>
+            <li class="nav-item"><a class="nav-link active" href="/index/loginform" sec:authorize="isAnonymous()">[로그인]</a></li>
+            <li><span sec:authorize="isAuthenticated()" th:text="${#authorization.authentication.name}+'  HI!'"></span></li>
+            <li><button type="button" onClick="location.href='/logout'" th:text="Logout" class="btn but-primary" sec:authorize="isAuthenticated()"></button></li>
+          </ul>
+    </header>
+  </div>
+
+</html>

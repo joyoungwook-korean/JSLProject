@@ -3,6 +3,7 @@ package com.example.jslproject.service;
 import com.example.jslproject.dto.BoardDto;
 import com.example.jslproject.repository.BoardRepository;
 import com.example.jslproject.vo.BoardVO;
+import com.example.jslproject.vo.FileVO;
 import com.example.jslproject.vo.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -35,9 +36,12 @@ public class BoardService {
 
     }
 
-    public BoardVO update(BoardVO boardVO,String subject, String contents){
+    public BoardVO update(BoardVO boardVO, String subject, String contents, FileVO fileVO){
         boardVO.setBoardContents(contents);
         boardVO.setBoardSubject(subject);
+        if(fileVO!=null){
+            boardVO.setBoardFile(fileVO);
+        }
         return boardVO;
     }
 

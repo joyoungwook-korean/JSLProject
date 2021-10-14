@@ -15,7 +15,7 @@
                         <li><a href="/joinform" sec:authorize="isAnonymous()">[회원가입]</a></li>
                         <li><a href="/board/list" sec:authorize="isAuthenticated()">[자유게시판]</a></li>
                         <li><a href="" sec:authorize="isAuthenticated()">[자료실]</a></li>
-                        <li><a href="" sec:authorize="isAuthenticated()">[포토겔러리]</a></li>
+                        <li><a href="/photo/index" sec:authorize="isAuthenticated()">[포토겔러리]</a></li>
                         <li><a href="/index/loginform" sec:authorize="isAnonymous()">[로그인]</a></li>
                         <li><span sec:authorize="isAuthenticated()" th:text="${#authorization.authentication.name}+'  HI!'"></span></li>
                         <li><button type="button" onClick="location.href='/logout'" th:text="Logout" class="btn but-primary" sec:authorize="isAuthenticated()"></li>

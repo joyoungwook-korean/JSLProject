@@ -54,12 +54,12 @@ public class BoardController {
     FileService fileService;
 
     @GetMapping(value = "/list")
-    public String list(Model model,@PageableDefault(size = 7) Pageable pageable,
+    public String list(Model model, @PageableDefault(size = 7) Pageable pageable,
                        @RequestParam(required = false, defaultValue = "") String searchText,
                        @RequestParam(required = false, defaultValue = "action") String drop_check) {
-        Page<BoardVO> boardVO = boardService.check_get_dropBox(drop_check,searchText,pageable);
-        int startPage = Math.max(0,boardVO.getPageable().getPageNumber() - 4);
-        int endPage = Math.min(boardVO.getTotalPages(), boardVO.getPageable().getPageNumber()+4);
+        Page<BoardVO> boardVO = boardService.check_get_dropBox(drop_check, searchText, pageable);
+        int startPage = Math.max(0, boardVO.getPageable().getPageNumber() - 4);
+        int endPage = Math.min(boardVO.getTotalPages(), boardVO.getPageable().getPageNumber() + 4);
         model.addAttribute("boardvo", boardVO);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
@@ -81,23 +81,19 @@ public class BoardController {
     @PostMapping("/write")
     public String write(@Valid BoardDto boardDto, BindingResult bindingResult,
                         @RequestParam("userfullname") String userfullname,
-                        @RequestParam("username") String username,
                         @RequestParam("file") MultipartFile multipartFile
             , Model model) {
+
         if (bindingResult.hasErrors()) {
             return "/board/write";
         }
 
         User user = userRepository.findByUserFullName(userfullname);
-        String user_email = user.getEmail();
-        String user_provider = user.getProvider();
-         if(!multipartFile.isEmpty()){
-
-            boardDto.setFileVO(fileService.saveFile(multipartFile,user_email,user_provider));
+        if (!multipartFile.isEmpty()) {
+            boardDto.setFileVO(fileService.saveFile(multipartFile, user.getEmail(), user.getProvider()));
         }
 
-        BoardVO aa = boardService.saveBoard(boardDto,user);
-        System.out.println(aa.toString());
+        boardService.saveBoard(boardDto, user);
 
 
         return "redirect:/board/list";
@@ -105,44 +101,58 @@ public class BoardController {
 
     @GetMapping("/modify")
     public String modify(@AuthenticationPrincipal CustomDetails customDetails
-            ,Model model, @RequestParam("id") Long id){
+            , Model model, @RequestParam("id") Long id
+    ) {
         BoardVO boardVO = boardRepository.getById(id);
-        if(customDetails.getUser().getUserFullName().equals(boardVO.getUser().getUserFullName())){
-            model.addAttribute("truea","same");
-        }else{
+        if (customDetails.getUser().getUserFullName().equals(boardVO.getUser().getUserFullName())) {
+            model.addAttribute("truea", "same");
+        } else {
             boardService.countAdd(boardVO);
         }
 
-        model.addAttribute("thisUserVO",customDetails);
-        model.addAttribute("boardvo",boardVO);
+        model.addAttribute("thisUserVO", customDetails);
+        model.addAttribute("boardvo", boardVO);
         model.addAttribute("boardDto", new BoardDto());
         return "board/modify";
     }
 
     @PostMapping("/modify")
-    public String modify(@RequestParam("subject") String subject,@RequestParam("contents") String contents,@RequestParam("id") Long id){
+    public String modify(@RequestParam("subject") String subject, @RequestParam("file") MultipartFile multipartFile
+            , @RequestParam("contents") String contents, @RequestParam("id") Long id) {
         BoardVO boardVO = boardRepository.getById(id);
-        boardService.update(boardVO,subject,contents);
+        FileVO fileVO = null;
+
+        System.out.println(multipartFile.getOriginalFilename());
+        if (!multipartFile.isEmpty()) {
+            if (boardVO.getBoardFile() != null && boardVO.getBoardFile().getRealFileName().equals(multipartFile.getOriginalFilename())) {
+                fileService.delete_Board_FileVO(boardVO);
+            }
+            fileVO = fileService.update_File(boardVO, multipartFile);
+        }
+        boardService.update(boardVO, subject, contents, fileVO);
+
         return "redirect:/board/list";
     }
 
     @PostMapping("/delete")
-    public String delete(@RequestParam("boardId") String id){
+    public String delete(@RequestParam("boardId") String id) {
         Long id_x = Long.parseLong(id);
         BoardVO boardVO = boardRepository.findById(id_x).orElseThrow(IllegalArgumentException::new);
+
+        fileService.delete_Board_FileVO(boardVO);
         boardRepository.delete(boardVO);
         return "redirect:/board/list";
     }
 
     @GetMapping("/download/{field}")
-    public ResponseEntity<Resource> fileDownload(@PathVariable("field") Long field) throws IOException{
+    public ResponseEntity<Resource> fileDownload(@PathVariable("field") Long field) throws IOException {
         FileVO fileVO = fileService.getFile(field);
         Path path = Paths.get(fileVO.getRealFileSavePath());
         Resource resource = new InputStreamResource(Files.newInputStream(path));
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("application/octet-steam"))
-                .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=\""+ fileVO.getRealFileName() +"\"")
-                        .body(resource);
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileVO.getRealFileName() + "\"")
+                .body(resource);
     }
 }
 

@@ -19,6 +19,8 @@ public class MD5Generator {
         }
         result = hexMD5hash.toString();
     }
+
+    @Override
     public String toString(){
         return  result;
     }

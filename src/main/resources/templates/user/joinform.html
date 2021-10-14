@@ -27,7 +27,7 @@
     <form action="/joinform" method="post" role="form" th:object="${userJoinDto}">
       <h1 class="border-bottom"> 登録ページ</h1>
       <div class="form-floating">
-        <input type="text" th:field="*{username}" class="form-control" placeholder="Name">
+        <input type="text" th:field="*{username}" class="form-control" placeholder="asdf">
         <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="fieldError"></p>
 
       </div>
