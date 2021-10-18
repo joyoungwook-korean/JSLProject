@@ -38,7 +38,7 @@
 
             <div class="form-group" th:each="num: ${#numbers.sequence(1,4)}">
                 <div class="cystom-file img-div">
-                    <input id="photo-img" type="file" class="custom-file-input" name="photoImgFile">
+                    <input id="photo-img" type="file" class="custom-file-input" name="photoImgFile" multiple="multiple">
                     <label for="photo-img" class="custom-file-label" th:text="Img + ${num}"></label>
                 </div>
             </div>

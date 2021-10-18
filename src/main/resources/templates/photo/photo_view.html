@@ -1,4 +1,3 @@
-
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/content2}"
@@ -22,12 +21,13 @@
                 <div>
                     <div class="box">
                         <div class="image fit">
-                            <img th:src="@{/images/1.png}" alt=""/>
+                            <img th:src="@{/upload/}+${photoBoardVO.getUser().getProvider()} +'/'+${photoBoardVO.getUser().getEmail()}+'/Photo/'+${photoBoardVO.getPhotoVOList.get(0).getServerPhotoName()}"
+                                 style="height: 400px"/>
                         </div>
                         <div class="content">
                             <header class="align-center">
                                 <p>maecenas sapien feugiat ex purus</p>
-                                <h2>Lorem ipsum dolor</h2>
+                                <h2>주변 맛집</h2>
                             </header>
                             <p> Cras aliquet urna ut sapien tincidunt, quis malesuada elit facilisis. Vestibulum sit
                                 amet
@@ -43,12 +43,13 @@
                 <div>
                     <div class="box">
                         <div class="image fit">
-                            <img th:src="@{/images/1.png}" alt=""/>
+                            <img th:src="@{/upload/}+${photoBoardVO.getUser().getProvider()} +'/'+${photoBoardVO.getUser().getEmail()}+'/Photo/'+${photoBoardVO.getPhotoVOList.get(1).getServerPhotoName()}"
+                                 style="height: 400px"/>
                         </div>
                         <div class="content">
                             <header class="align-center">
                                 <p>mattis elementum sapien pretium tellus</p>
-                                <h2>Vestibulum sit amet</h2>
+                                <h2>여행 예약 페이지</h2>
                             </header>
                             <p> Cras aliquet urna ut sapien tincidunt, quis malesuada elit facilisis. Vestibulum sit
                                 amet
@@ -70,7 +71,7 @@
         <div class="inner">
             <header class="align-center">
                 <p>Nam vel ante sit amet libero scelerisque facilisis eleifend vitae urna</p>
-                <h2>Morbi maximus justo</h2>
+                <h2>오늘은 어디로 놀러갈까</h2>
             </header>
         </div>
     </section>
@@ -80,27 +81,13 @@
         <div class="inner">
             <header class="align-center">
                 <p class="special">Nam vel ante sit amet libero scelerisque facilisis eleifend vitae urna</p>
-                <h2>Morbi maximus justo</h2>
+                <h2>명소 근처의 관광 사진</h2>
             </header>
             <div class="gallery">
-                <div>
+                <div th:each="getPhoto,i : ${photoBoardVO.getPhotoVOList()}">
                     <div class="image fit">
-                        <a href="#"><img th:src="@{/images/1.png}" alt=""/></a>
-                    </div>
-                </div>
-                <div>
-                    <div class="image fit">
-                        <a href="#"><img th:src="@{/images/1.png}" alt=""/></a>
-                    </div>
-                </div>
-                <div>
-                    <div class="image fit">
-                        <a href="#"><img th:src="@{/images/1.png}" alt=""/></a>
-                    </div>
-                </div>
-                <div>
-                    <div class="image fit">
-                        <a href="#"><img th:src="@{/images/1.png}" alt=""/></a>
+                        <img th:src="@{/upload/}+${photoBoardVO.getUser().getProvider()} +'/'+${photoBoardVO.getUser().getEmail()}+'/Photo/'+${getPhoto.getServerPhotoName()}"
+                             style="height: 400px"/>
                     </div>
                 </div>
             </div>

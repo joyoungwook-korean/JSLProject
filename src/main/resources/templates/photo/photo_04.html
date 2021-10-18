@@ -10,66 +10,15 @@
 <div layout:fragment="content2">
 		<div class="container demo-3" style="height: 100%">
 			<!-- Top Navigation -->
-
-
-			<ul class="grid cs-style-4" >
-				<li>
-					<figure>
-						<div><img th:src="@{/images/5.png}" alt="img05"></div>
+			<ul class="grid cs-style-4"  >
+				<li th:each="photoBoardList : ${photoBoardList}">
+					<figure >
+						<div th:each="ppp : ${photoBoardList.getPhotoVOList().get(0)}">
+							<img  th:src="@{/upload/}+${photoBoardList.getUser().getProvider()} +'/'+${photoBoardList.getUser().getEmail()}+'/Photo/'+${ppp.getServerPhotoName()}" alt="img05"  style="height: 350px; width: 400px"></div>
 						<figcaption>
-							<h3>Safari</h3>
-							<span>Jacob Cummings</span>
-							<a th:href="@{/photo/view}">Take a look</a>
-						</figcaption>
-					</figure>
-				</li>
-				<li>
-					<figure>
-						<div><img th:src="@{/images/6.png}"  alt="img06"></div>
-						<figcaption>
-							<h3>Game Center</h3>
-							<span>Jacob Cummings</span>
-							<a href="http://dribbble.com/shots/1118904-Game-Center">Take a look</a>
-						</figcaption>
-					</figure>
-				</li>
-				<li>
-					<figure>
-						<div><img th:src="@{/images/2.png}" alt="img02"></div>
-						<figcaption>
-							<h3>Music</h3>
-							<span>Jacob Cummings</span>
-							<a href="http://dribbble.com/shots/1115960-Music">Take a look</a>
-						</figcaption>
-					</figure>
-				</li>
-				<li>
-					<figure>
-						<div><img th:src="@{/images/4.png}" alt="img04"></div>
-						<figcaption>
-							<h3>Settings</h3>
-							<span>Jacob Cummings</span>
-							<a href="http://dribbble.com/shots/1116685-Settings">Take a look</a>
-						</figcaption>
-					</figure>
-				</li>
-				<li>
-					<figure>
-						<div><img th:src="@{/images/1.png}" alt="img01"></div>
-						<figcaption>
-							<h3>Camera</h3>
-							<span>Jacob Cummings</span>
-							<a href="http://dribbble.com/shots/1115632-Camera">Take a look</a>
-						</figcaption>
-					</figure>
-				</li>
-				<li>
-					<figure>
-						<div><img th:src="@{/images/3.png}" alt="img03"></div>
-						<figcaption>
-							<h3>Phone</h3>
-							<span>Jacob Cummings</span>
-							<a href="http://dribbble.com/shots/1117308-Phone">Take a look</a>
+							<h3 th:text="${photoBoardList.getTitle()}"></h3>
+							<span th:text="${photoBoardList.getUser().getUsername() + ' : ' + photoBoardList.getUser().getProvider()}"></span>
+							<a th:href="@{/photo/view(photoBoardIdx=${photoBoardList.getId()})}">Take a look</a>
 						</figcaption>
 					</figure>
 				</li>

@@ -1,8 +1,11 @@
 package com.example.jslproject.service;
 
+import com.example.jslproject.dto.BoardDto;
 import com.example.jslproject.dto.PhotoBoardDto;
+import com.example.jslproject.dto.PhotoVODto;
 import com.example.jslproject.repository.PhotoBoardVORepository;
 import com.example.jslproject.repository.UserRepository;
+import com.example.jslproject.vo.BoardVO;
 import com.example.jslproject.vo.PhotoBoardVO;
 import com.example.jslproject.vo.PhotoVO;
 import com.example.jslproject.vo.User;
@@ -27,23 +30,22 @@ public class PhotoBoardService {
     @Autowired
     PhotoVOService photoVOService;
 
-    public PhotoBoardDto saved_Photo_Baord(List<MultipartFile> multipartFiles, PhotoBoardDto photoBoardDto) throws Exception {
+    public PhotoBoardVO saved_Photo_Baord( PhotoBoardDto photoBoardDto, User user) throws Exception {
         PhotoBoardVO photoBoardVO = new PhotoBoardVO();
 
         photoBoardVO.setContents(photoBoardDto.getContents());
         photoBoardVO.setTitle(photoBoardDto.getTitle());
-        User user=userRepository.getById(Long.parseLong(photoBoardDto.getUserId()) );
+        photoBoardVO.setPhotoVOList(photoBoardDto.getPhotoVOList());
         photoBoardVO.setUser(user);
-        List<PhotoVO> aa = new ArrayList<>();
-        for(MultipartFile multipartFile : multipartFiles){
-             aa.add( photoVOService.photoSave(multipartFile,user));
-        }
-        photoBoardVO.setPhotoVOList(aa);
-        photoBoardDto.setPhotoVOList(aa);
 
         photoBoardVORepository.save(photoBoardVO);
 
-        return photoBoardDto;
+        return photoBoardVO;
 
+    }
+
+    public PhotoBoardVO updatePhotoVO(List<PhotoVO> photoVOList, PhotoBoardVO photoBoardVO){
+        photoBoardVO.setPhotoVOList(photoVOList);
+        return photoBoardVO;
     }
 }

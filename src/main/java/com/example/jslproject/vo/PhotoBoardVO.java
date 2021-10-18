@@ -1,6 +1,7 @@
 package com.example.jslproject.vo;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
@@ -9,11 +10,11 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @Entity
 @NoArgsConstructor
-@ToString
 public class PhotoBoardVO {
 
     @Id
@@ -28,8 +29,7 @@ public class PhotoBoardVO {
 
     private String contents;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
+    @OneToMany
     private List<PhotoVO> photoVOList;
 
     @CreationTimestamp
@@ -37,4 +37,6 @@ public class PhotoBoardVO {
 
     @UpdateTimestamp
     private Timestamp updateTimestamp;
+
+
 }

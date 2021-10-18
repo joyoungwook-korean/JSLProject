@@ -1,9 +1,11 @@
 package com.example.jslproject.service;
 
 import com.example.jslproject.dto.FileDto;
+import com.example.jslproject.dto.PhotoVODto;
 import com.example.jslproject.repository.PhotoVORepository;
 import com.example.jslproject.util.MD5Generator;
 import com.example.jslproject.vo.FileVO;
+import com.example.jslproject.vo.PhotoBoardVO;
 import com.example.jslproject.vo.PhotoVO;
 import com.example.jslproject.vo.User;
 import lombok.NoArgsConstructor;
@@ -18,21 +20,22 @@ import java.io.FileOutputStream;
 import java.util.UUID;
 
 @Service
-@Log
 @Transactional
 public class PhotoVOService {
 
     @Autowired
     PhotoVORepository photoVORepository;
 
-    private PhotoVO uploadPhoto(MultipartFile multipartFile, User user) throws Exception{
+    private PhotoVODto uploadPhoto(MultipartFile multipartFile, User user) throws Exception{
         UUID uuid = UUID.randomUUID();
-        PhotoVO photoVO = new PhotoVO();
+        PhotoVODto photoVODto = null;
         try {
+
+            System.out.println("inside"+multipartFile.getOriginalFilename());
             String realPhotoName = multipartFile.getOriginalFilename();
             String extension = realPhotoName.substring(realPhotoName.lastIndexOf("."));
             String savedPhotoName = uuid.toString()+extension;
-            String savePath = System.getProperty("user.dir") + "\\filename" + "\\" + user.getProvider() + "\\" + user.getUsername() +"\\" +"Photo";
+            String savePath = System.getProperty("user.dir") + "\\filename" + "\\" + user.getProvider() + "\\" + user.getEmail()+"\\Photo";
             if (!new File(savePath).exists()) {
                 try {
                     new File(savePath).mkdir();
@@ -42,38 +45,34 @@ public class PhotoVOService {
             }
 
             String filePath = savePath + "\\" + savedPhotoName;
-            multipartFile.transferTo(new File(filePath));
 
-            photoVO.setRealPhotoName(realPhotoName);
-            photoVO.setServerFileName(savedPhotoName);
-            photoVO.setRealPhotoPath(filePath);
+            photoVODto = new PhotoVODto();
+            photoVODto.setRealPhotoName(realPhotoName);
+            photoVODto.setRealPhotoSavePath(filePath);
+            photoVODto.setServerPhotoName(savedPhotoName);
+            multipartFile.transferTo(new File(filePath));
 
 
         } catch (Exception e) {
             e.getStackTrace();
         }
-        return photoVO;
+        return photoVODto;
 
     }
 
-    public void deletePhoto(String filePath) throws Exception{
-        File deleteFile = new File(filePath);
-
-        if(deleteFile.exists()){
-            deleteFile.delete();
-            log.info("파일삭제완료");
-        }else{
-            log.info("파일이 존재x");
+    public PhotoVO photoSave(MultipartFile multipartFile, User user, PhotoBoardVO photoBoardVO) throws Exception {
+        PhotoVO photoVO = null;
+        photoVO = new PhotoVO().createPhotoVO(uploadPhoto(multipartFile,user));
+        photoVO.setPhotoBoardVO(photoBoardVO);
+        if(photoVO!=null){
+            photoVORepository.save(photoVO);
+            PhotoVO photoVO1 = photoVORepository.getById(photoVO.getId());
+            System.out.println(photoVO1.getId());
+            return photoVO1;
+        }else {
+            return null;
         }
 
     }
-
-    public PhotoVO photoSave(MultipartFile multipartFile, User user) throws Exception {
-        PhotoVO photoVO = uploadPhoto(multipartFile,user);
-        photoVORepository.save(photoVO);
-        return photoVO;
-    }
-
-
 
 }
